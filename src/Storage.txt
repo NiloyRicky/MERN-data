@@ -1,0 +1,177 @@
+//context.js
+//useEffect func to fetch daatt
+ 
+useEffect(() => {
+    if (name.trim() !== "") {
+        //handling debouncing
+       let timerOut= setTimeout(()=>{
+            fetchData(name);
+        },2000);
+
+        return ()=>clearTimeout(timerOut)
+      
+      } 
+      else {
+      setNseData([]);
+      setBseData([]);
+    }
+  }, [name]);
+
+  //NAvar.js freturn se pahle
+
+  //server.js
+     const result = await pool.query('SELECT * FROM bse_securities_available  WHERE industry ILIKE $1',[`%${search}`]);
+
+
+//UserData grid system
+import React from 'react';
+import { useGlobal } from './Context';
+import NavBar from './Navbar';
+
+const UserData = () => {
+  const { loading, error, nseData, bseData } = useGlobal();
+
+  if (loading) {
+    return (
+      <>
+        <NavBar />
+        <p>Loading...</p>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <NavBar />
+        <p>Error: {error}</p>
+      </>
+    );
+  }
+
+  if (nseData.length === 0 && bseData.length === 0) {
+    return (
+      <>
+        <NavBar />
+        <p>No data found</p>
+      </>
+    );
+  }
+
+  const renderNSEData = (data) => {
+    return data.map((item, i) => (
+      <div className="container mt-2" key={i}>
+        <div className="row">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+            <h2>Name: {item.name_of_company}</h2>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+            <p>Series: {item.series}</p>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+            <p>Date: {item.date_of_listing}</p>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+            <p>Paid: {item.paid_up_value}</p>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+            <p>ISIN: {item.isin_number}</p>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+            <p>Date: {item.execution_datetime_ist}</p>
+          </div>
+        </div>
+      </div>
+    ));
+  };
+
+
+  const renderBSEData = (data) => {
+   return data.map((item, i) => (
+     <div className="container mt-2" key={i}>
+       <div className="row">
+         <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+           <h2>Name: {item.industry}</h2>
+         </div>
+         <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+           <p>Scrip Name: {item.scrip_name}</p>
+         </div>
+         <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+           <p>Issuer: {item.issuer_name}</p>
+         </div>
+         <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+           <p>Market Cap: {item.mktcap}</p>
+         </div>
+         <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+           <p>Status: {item.status}</p>
+         </div>
+         <div className="col-12 col-sm-6 col-md-4 col-lg-2 text-end m-auto">
+           <p>Date: {item.execution_datetime_ist}</p>
+         </div>
+       </div>
+     </div>
+   ));
+ };
+
+
+  return (
+    <>
+      <NavBar />
+      {nseData.length > 0 && bseData.length === 0 ? 
+      (renderNSEData(nseData)
+      ):
+      (renderBSEData(bseData)
+   
+      )}
+    </>
+  );
+};
+
+export default UserData;
+ 
+
+ //Navar.js
+
+ import React, { useEffect } from 'react';
+import './style.css';
+import logo from './images/logo.png'
+import { Link, useNavigate } from 'react-router-dom';
+import { useGlobal } from './Context';
+
+
+const NavBar = () => {
+  const {name,setName,nseData,bseData}=useGlobal();
+
+
+  const navigate=useNavigate();
+  useEffect(()=>{
+    if(nseData.length>0 || bseData.length>0){
+       
+        navigate('/api')
+      
+    }
+    else{
+      navigate('/')
+    }
+
+  },[nseData,bseData,navigate ])
+
+  return (
+    <nav className="navbar fixed-top">
+    <div className="navbar-logo">
+      <a href="/">
+        <img src={logo} alt="Logo" />
+      </a>
+    </div>
+   
+   <div className="navbar-search-container">
+      <input type="text" className="navbar-search" placeholder="Search..." 
+      value={name} onChange={(e)=>setName(e.target.value)}/>
+    </div>
+   
+    
+  </nav>
+  );
+};
+
+export default NavBar;

@@ -1,0 +1,94 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: 0;
+}
+body{
+    overflow-x: hidden;
+    
+}
+.carousel{
+    width:100%;
+    height: calc(100% - 60px);
+    margin-top: 1.2vh;
+
+}
+
+.carousel-item img{
+    width:100%;
+    height: 80vh;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    position: sticky ! important;
+    padding: 0 20px;
+    background-color: #f8f9fa;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; /* Ensure positioning context for child elements */
+  }
+  
+  .navbar-brand img {
+    height: 40px; /* Adjust the height as needed */
+    width: auto; /* Maintain aspect ratio */
+  }
+  
+  .navbar-search-container {
+    flex-grow: 1; /* Allows the search container to expand */
+    display: flex;
+    justify-content: center; /* Center the search bar horizontally */
+    padding: 0 10px; /* Add horizontal padding */
+  }
+  
+  .navbar-search {
+    width: 100%;
+    max-width: 600px; /* Limit the maximum width of the search bar */
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+  
+  .navbar-icon {
+    font-size: 18px;
+    color: #333;
+    padding: 0 10px; /* Add horizontal padding */
+  }
+  i{
+    font-size: 22px;
+    padding:2vw vw;
+  }
+  i:hover{
+  
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+   
+
+  }
+  
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .navbar-search-container {
+      width: 100%; /* Full width on smaller screens */
+      padding: 0; /* Remove padding on smaller screens */
+    }
+  
+    .navbar-search {
+      width: 100%; /* Full width */
+      max-width: none; /* Remove max-width constraint */
+    }
+  
+    .navbar-logo img {
+      height: 30px; /* Adjust the height for smaller screens */
+    }
+  }
+.row img{
+  filter:drop-shadow(5px 5px 10px black);
+}
